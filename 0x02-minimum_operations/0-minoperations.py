@@ -1,16 +1,20 @@
-#!/usr/bin/python3
 def minOperations(n):
-    if n == 1:
-        return 0  # If n is 1, no operations are needed since 'H' is already present
+    if not isinstance(n, int):
+        return 0  # If n is not an integer, return 0
     
-    operations = 0
-    factor = 2  # Start with factor = 2 (smallest possible factor)
+    ops_count = 0  # Variable to keep track of the number of operations
+    clipboard = 0  # Variable to store the copied value
+    done = 1  # Variable to keep track of the number of 'H' characters achieved
     
-    while factor <= n:
-        if n % factor == 0:
-            operations += factor  # Perform Copy All followed by Paste factor times
-            n = n // factor  # Update n by dividing with factor
+    while done < n:
+        if n % done == 0:
+            # If the remaining count is divisible by the achieved count, perform Copy All and Paste operation
+            clipboard = done  # Copy the current number of 'H' characters
+            done += clipboard  # Add the copied value to the number of 'H' characters achieved
+            ops_count += 2  # Increment the operation count by 2 (Copy All and Paste)
         else:
-            factor += 1  # Increment factor if it doesn't divide n evenly
+            # If the remaining count is not divisible by the achieved count, perform only Paste operation
+            done += clipboard  # Add the copied value to the number of 'H' characters achieved
+            ops_count += 1  # Increment the operation count by 1 (Paste)
     
-    return operations
+    return ops_count  # Return the total number of operations required
